@@ -251,12 +251,7 @@ Function Invoke-PPOSDBuilder {
     Update-OSMedia -Name "$($(Get-OSMedia).Name)" -Download -Execute
 
     # Create a new Image Build Task Set
-    If ($OSType -eq 'Svr'){
-        New-OSBuildTask -TaskName "$($BuildTaskName)" -CustomName "$($BuildTaskName)" -EnableNetFX3 -RemoveAppx -RemoveCapability -RemovePackage -DisableFeature -EnableFeature
-    }
-    Else {
-        New-OSBuildTask -TaskName "$($BuildTaskName)" -EnableNetFX3 -RemoveAppx -RemoveCapability -RemovePackage -DisableFeature -EnableFeature
-    }
+    New-OSBuildTask -TaskName "$($BuildTaskName)" -CustomName "$($BuildTaskName)" -EnableNetFX3 -RemoveAppx -RemoveCapability -RemovePackage -DisableFeature -EnableFeature
 
     # Update the OneDrive Setup EXE
     If ($OSType -eq 'Wks'){
@@ -264,12 +259,8 @@ Function Invoke-PPOSDBuilder {
     }
 
     # Create the Image Build
-    If ($OSType -eq 'Svr') {
-        New-OSBuild -ByTaskName "$($BuildTaskName)" -Download -Execute -Verbose
-    }
-    Else {
-        New-OSBuild -Name "$($ImageBuildName)" -Download -Execute -ByTaskName "$($BuildTaskName)" -Verbose
-    }
+    New-OSBuild -ByTaskName "$($BuildTaskName)" -Download -Execute -Verbose
+
 
     # Get and copy the new WIM File
     $OSBuilds = Get-OSBuilds
